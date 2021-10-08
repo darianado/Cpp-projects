@@ -32,11 +32,11 @@ public:
     o<<"{"<<latitude<<", "<<longitude<<", \""<<name<<"\", "<<age<<", "<<time<<"}";
   }
 
-  double getLatitude ()
+  double getLatitude() const
   {
     return latitude;
   }
-  double getLongitude ()
+  double getLongitude () const
   {
     return longitude;
   }
@@ -53,7 +53,6 @@ public:
         double a = pow((sin(dlat/2)), 2) + cos(lat1) * cos(lat2) * pow((sin(dlon/2)), 2);
         double c = 2 * atan2( sqrt(a), sqrt(1-a) );
         return 3960 * c;
-
   }
 
 };
@@ -62,8 +61,6 @@ ostream & operator<<(ostream & o, const CovidCase & cc){
   cc.print(o);
   return o;
 }
-
-
 
 
 // don't write any code below this line
