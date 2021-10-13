@@ -47,7 +47,9 @@ using std::vector;
 using std::string;
 
 char operators[] = "+-*/";
-CountdownSolution CDSol;
+string finsol="";
+int finrez=0;
+
 
 bool isOperation(char c)
 {
@@ -60,7 +62,7 @@ double operation(char c, double a, double b)
   if(c=='+') return a+b;
   if(c=='-') return b-a;
   if(c=='*') return a*b;
-  if(c=='/') return b/a;
+  if(c=='/'&&a!=0) return b/a;
   return 0;
 }
 double evaluateCountdown(string s)
@@ -78,7 +80,6 @@ double evaluateCountdown(string s)
 
           if(isOperation(s.at(i)))
           {
-            //std::cout<<s[i]<<"\n";
             double a= std::stod(tok.back());tok.pop_back();
 
             double b= std::stod(tok.back());tok.pop_back();
@@ -97,35 +98,36 @@ double evaluateCountdown(string s)
     return std::stod(rez);
 
 }
+
 void check_ops(string & sol, int nrops, vector<int> & ops, int index, double target)
 {
 
+
   for(int i=0;i<4;i++)
   {
-//std::cout<<ops.size()<<std::endl;
     ops.push_back(i);
     if(index==nrops-1)
       {
         string s=sol;
-          //std::cout<<"///...."<<s<<"///....";
         for(int j=0;j<nrops;j++)
           {
             int x = ops[j];
-            //std::cout<<x<<"///....";
+            //std::cout<<"???"<<x<<"???"<<"\n";
             s.push_back(operators[x]);s.push_back(' ');
+
           }
-
+          //std::cout<<"///...."<<s<<"///";
           double rez = evaluateCountdown(s);
+          //std::cout<<"rez="<<rez<<"\n";
+          if( abs(target-rez) < abs(target-finrez) )
+              {finsol=s;finrez=rez; std::cout<<"---"<<finsol<<"========>>>>>>>>"<<finrez<<std::endl;}
 
-          if( abs(target-rez) < abs(target-CDSol.getValue()) )
-              {CDSol = CountdownSolution(s,rez);}
-
-          //std::cout<<"888888888888888888888---"<<CDSol.getSolution()<<std::endl;
-          ops.clear();
       }
     else check_ops(sol,nrops,ops,index+1,target);
+    ops.erase(ops.begin()+index, ops.end());
   }
 }
+
 void nr_in_str(vector<int>& v, int target, vector<int> & ops)
 {
     string sol ="";
@@ -144,6 +146,8 @@ CountdownSolution solveCountdownProblem(vector<int> & v, double target)
         do {
             nr_in_str(v,target, ops);
         } while(next_permutation(v.begin(), v.end()));
+      CountdownSolution CDSol(finsol,finrez);
+      std::cout<<">>>>>>>>>>>>>>>"<<CDSol.getSolution()<<"========>>>>>>>>"<<CDSol.getValue()<<std::endl;
     return CDSol;
 
 }
