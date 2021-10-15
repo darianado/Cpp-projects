@@ -31,10 +31,10 @@ class CovidCaseMap {
 
     int getNrCases(int time,int unit) const
     {
-      int act=1;
+      int act=0;
       for(int i=0;i<s.size();i++)
       {
-        if(s[i].getTime()<time && s[i].getTime()+unit >= time)
+        if(s[i].getTime()<=time && s[i].getTime()+unit > time)
           act++;
       }
       return act;
@@ -43,10 +43,17 @@ class CovidCaseMap {
     vector<TimeAndCaseData> getCasesOverTime(int unit) const
     {
       vector<TimeAndCaseData> rez;
+      vector<int> times;
       rez.push_back( TimeAndCaseData( 0,  0 ) );
       for(auto &cc: s)
       {
-        rez.push_back( TimeAndCaseData( cc.getTime(),  getNrCases(cc.getTime(),unit) ) );
+        times.push_back(cc.getTime());
+        times.push_back(cc.getTime()+unit);
+      }
+      std::sort(times.begin(),times.end());
+      for(int &i: times)
+      {
+        rez.push_back( TimeAndCaseData( i,  getNrCases(i,unit) ) );
       }
       return rez;
     }
