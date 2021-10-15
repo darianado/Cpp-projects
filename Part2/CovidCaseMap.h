@@ -7,56 +7,52 @@
 #include <vector>
 using std::vector;
 
+class TimeAndCaseData{
+  private:
+    int time;
+    int nrCases;
+  public:
+  TimeAndCaseData(int t, int nr):time(t),nrCases(nr)  {};
+
+    int getTime() const {return time;}
+    int getNumberOfCases() const {return nrCases;}
+};
 
 class CovidCaseMap {
+  private:
+    vector<CovidCase> s;
 
+  public:
 
-private:
-
-
-public:
-  vector<CovidCase> s;
-        class TimeAndCaseData{
-        private:
-          int time;
-          int nrCases;
-        public:
-          TimeAndCaseData(int t, int unit):time(t)
-          {
-            nrCases=getNrCases(unit);
-          };
-
-          int getNrCases(int unit)
-          {
-            int act=0;
-            for(int i=0;i<s.size();i++)
-            {
-              if(s[i].getTime()+unit >= time)
-                act++;
-            }
-            return act;
-          }
-
-          int getTime() const {return time;}
-          int getNumberOfCases() const {return nrCases;}
-        };
-
-  void addCase(const CovidCase & cc)
-  {
-    s.push_back(cc);
-  }
-
-  vector<TimeAndCaseData> getCasesOverTime(int unit) const
-  {
-    vector<TimeAndCaseData> rez;
-    for(auto &cc: s)
+    void addCase(const CovidCase & cc)
     {
-      rez.push_back(new TimeAndCaseData(cc.getTime(), unit));
+      s.push_back(cc);
     }
-  }
+
+    int getNrCases(int time,int unit) const
+    {
+      int act=1;
+      for(int i=0;i<s.size();i++)
+      {
+        if(s[i].getTime()<time && s[i].getTime()+unit >= time)
+          act++;
+      }
+      return act;
+    }
+
+    vector<TimeAndCaseData> getCasesOverTime(int unit) const
+    {
+      vector<TimeAndCaseData> rez;
+      rez.push_back( TimeAndCaseData( 0,  0 ) );
+      for(auto &cc: s)
+      {
+        rez.push_back( TimeAndCaseData( cc.getTime(),  getNrCases(cc.getTime(),unit) ) );
+      }
+      return rez;
+    }
 
 
-};
+  };
 
 
 // don't write any code below this line

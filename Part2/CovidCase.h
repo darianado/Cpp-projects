@@ -83,21 +83,21 @@ public:
   }
 
 
-  const double & getLatitude()const
+  double getLatitude()const
   {
     return latitude;
   }
-  const double & getLongitude() const
+  double getLongitude() const
   {
     return longitude;
   }
-  const string & getName()const{
+  string getName()const{
     return name;
   }
-  const unsigned int & getAge()const{
+  unsigned int  getAge()const{
     return age;
   }
-  const int & getTime()const{
+  int getTime()const{
     return time;
   }
 
