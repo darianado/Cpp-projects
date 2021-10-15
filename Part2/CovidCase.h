@@ -35,7 +35,6 @@ public:
     std::remove(s.begin(), s.end(), ' ');
     std::remove(s.begin(), s.end(), '"');
       std::remove(s.begin(), s.end(), '{');
-    std::cout<<std::endl<<s<<std::endl;
     std::vector<string> el;
     string t="";
     for(int i = 0; i < s.length(); i++){
@@ -54,36 +53,11 @@ public:
       age= std::stoi(el[3]);
       time= std::stoi(el[4]);
 
-
-    // std::remove(s.begin(), s.end(), ' ');
-    // std::remove(s.begin(), s.end(), '"');
-    // string *p ;
-    // p =strtok(&s+1,",");
-    // latitude = std::stod(*p);
-    // p =strtok(NULL, ",");
-    // longitude = std::stod(*p);
-    // p =strtok(NULL, ",");
-    // name = *p;
-    // p =strtok(NULL, ",");
-    // age = std::stoi(*p);
-    // p =strtok(NULL, "}");
-    // time = std::stoi(*p);
-
-
   };
 
   void print(ostream & o) const
   {
     o<<"{"<<latitude<<", "<<longitude<<", \""<<name<<"\", "<<age<<", "<<time<<"}";
-  }
-
-  double getLatitude() const
-  {
-    return latitude;
-  }
-  double getLongitude () const
-  {
-    return longitude;
   }
 
    double distanceTo(const CovidCase & other) const
@@ -109,21 +83,21 @@ public:
   }
 
 
-  double & getLatitude()
+  const double & getLatitude()const
   {
     return latitude;
   }
-  double & getLongitude()
+  const double & getLongitude() const
   {
     return longitude;
   }
-  string & getName(){
+  const string & getName()const{
     return name;
   }
-  unsigned int & getAge(){
+  const unsigned int & getAge()const{
     return age;
   }
-  int & getTime(){
+  const int & getTime()const{
     return time;
   }
 
