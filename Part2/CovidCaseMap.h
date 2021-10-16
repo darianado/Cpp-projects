@@ -5,6 +5,7 @@
 
 // TODO: your code goes here
 #include <vector>
+#include <cfloat>
 using std::vector;
 
 class TimeAndCaseData{
@@ -17,6 +18,12 @@ class TimeAndCaseData{
     int getTime() const {return time;}
     int getNumberOfCases() const {return nrCases;}
 };
+
+bool alldone(vector<int> v)
+{
+  for(auto &i :v) if(v[i]==0) return false;
+  return true;
+}
 
 class CovidCaseMap {
   private:
@@ -58,8 +65,37 @@ class CovidCaseMap {
       return rez;
     }
 
+    double supportVisitGreedyTSP (double lati, double lon, int time, int unit)
+    {
+      // double la=lati; double lo=long;
+      CovidCase strt = CovidCase(lati,lon ,"",0,time);
+      vector<int> visited(s.size());
+      double rez=0;
+      int aici=-1;
+      CovidCase curr = strt;
+      do
+      {
+        double min = DBL_MAX;
+        for(int i=0;i<s.size();i++)
+        {
+          if(visited[i]==0 && curr.distanceTo(s[i]) < min)
+          {
+            min=curr.distanceTo(s[i]);
+            std::cout<<min<<"----";
+            aici=i;
+          }
+        }
+        std::cout<<std::endl;
+        rez+=min;
+        visited[aici]=1;
+        curr=s[aici];
+      }while(!alldone(visited));
+      //rez+= curr.distanceTo(strt);
+      return rez;
+      }
+};
 
-  };
+
 
 
 // don't write any code below this line
