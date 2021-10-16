@@ -17,6 +17,11 @@ class TimeAndCaseData{
 
     int getTime() const {return time;}
     int getNumberOfCases() const {return nrCases;}
+
+    bool operator<(TimeAndCaseData const & other) const
+    {
+      return (nrCases<other.nrCases);
+    }
 };
 
 bool alldone(vector<int> v)
@@ -47,6 +52,17 @@ class CovidCaseMap {
       return act;
     }
 
+    vector<CovidCase> const getActiveCasesAt(int time,int unit) const
+    {
+      vector<CovidCase> rez;
+      for(int i=0;i<s.size();i++)
+      {
+        if(s[i].getTime()<=time && s[i].getTime()+unit > time)
+          rez.push_back(s[i]);
+      }
+      return rez;
+    }
+
     vector<TimeAndCaseData> getCasesOverTime(int unit) const
     {
       vector<TimeAndCaseData> rez;
@@ -65,22 +81,33 @@ class CovidCaseMap {
       return rez;
     }
 
+    //vector<CovidCase>
+    // void getActiveCasesAt(int time, int unit)
+    // {
+    //   vector<TimeAndCaseData> rez=getCasesOverTime(unit);
+    //
+    //   int max=(*max_element(rez.begin(),rez.end())).getTime();
+    //
+    //   //return NULL;
+    // }
+
     double supportVisitGreedyTSP (double lati, double lon, int time, int unit)
     {
-      // double la=lati; double lo=long;
+
       CovidCase strt = CovidCase(lati,lon ,"",0,time);
-      vector<int> visited(s.size());
+      vector<CovidCase> ac = getActiveCasesAt(time,unit);
+      vector<int> visited(ac.size());
       double rez=0;
       int aici=-1;
       CovidCase curr = strt;
       do
       {
         double min = DBL_MAX;
-        for(int i=0;i<s.size();i++)
+        for(int i=0;i<ac.size();i++)
         {
-          if(visited[i]==0 && curr.distanceTo(s[i]) < min)
+          if(visited[i]==0 && curr.distanceTo(ac[i]) < min)
           {
-            min=curr.distanceTo(s[i]);
+            min=curr.distanceTo(ac[i]);
             std::cout<<min<<"----";
             aici=i;
           }
@@ -88,9 +115,9 @@ class CovidCaseMap {
         std::cout<<std::endl;
         rez+=min;
         visited[aici]=1;
-        curr=s[aici];
+        curr=ac[aici];
       }while(!alldone(visited));
-      //rez+= curr.distanceTo(strt);
+      rez+= curr.distanceTo(strt);
       return rez;
       }
 };
