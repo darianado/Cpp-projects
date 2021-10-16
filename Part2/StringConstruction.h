@@ -10,35 +10,6 @@ using std::vector;
 
 
 // TODO: your code goes here:
-// void createString(string s,int cl,int a,int costNow=0,string strNow=""){
-//
-//   vector<string> prefixes;
-//   for(int i=0;i<s.size();i++)
-//   {
-//     prefixes.push_back(substr(s.begin(),i+1));
-//   }
-//
-//
-//   if(!nchar(s))
-//     return costNow;
-//
-//   else{
-//     y={}
-//     # prepend the first letter of s (=append operation) to
-//     # the prefixes in p that are contained in strNow (=clone operations)
-//     for(i in c(substring(s,1,1),p[mapply(grepl,p,x)])){
-//       # perform first the append then the clone operations and recurse,
-//       # storing the cost in y if lower than previous
-//       # (if y is NULL is an append operation otherwise is a clone, we use the right costs)
-//       y = min(y,f(substring(s,nchar(i)+1),a,c,k+'if'(any(y),c,a),paste0(x,i)))
-//     }
-//     # return the current cost
-//     y
-//   }
-// }
-
-
-
 
 
 
