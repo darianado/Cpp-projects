@@ -10,6 +10,7 @@
 // TODO your code goes here:
 
 #include <initializer_list>
+#include <memory>
 
 
 template<typename T>
@@ -22,36 +23,55 @@ public:
     LinkedList():
         head(nullptr),tail(nullptr),count(0){}
 
-    LinkedList(std::initializer_list<T> l){
+    LinkedList(std::initializer_list<T> const & l){
 
-        count=l.size();
-        Node<T> *curr = new Node<T>(*l.begin());
+        count=0;
+       head=nullptr;
+       tail=nullptr;
        
-        head= curr;
-        tail= curr;
 
-        auto itr = l.begin();
-        ++itr;
-         
-        while(itr!=l.end()){
-            push_back(*itr);
-            ++itr;
+        for(const auto& x : l)
+        {
+            push_back(x);
+            
         }
+
+
+        
+        for(Node<T>* x =head;x!=nullptr;x=x->next)
+            std::cout<<x->data<<" ";
+        std::cout<<"\n";
+
+        Node<T>* x =head;
+        for(int i=0;i<count;i++)
+            {std::cout<<x<<" "<<x->data<<" prev:"<<x->previous<<" next: "<<x->next<<"\n";x=x->next;}
+        std::cout<<"\n\n";
+
     }
 
     ~LinkedList()
     {
-        Node<T> *curr = head;
-        while(curr)
+          Node<T> *curr = head;
+          Node<T> *next = nullptr;
+        
+         while(curr!=nullptr)
         {
-            Node<T> *n = curr->next;
+            count--;
+            next=curr->next;
             delete curr;
-            curr = n;
+            curr=next;
         }
-        count=0;
+        
     }
 
-    NodeIterator<T> const insert(NodeIterator<T> nit, T const & elem)
+    NodeIterator<T> insert(NodeIterator<T> && nit, T const & elem)
+    {
+        NodeIterator<T> ni(std::move(nit));
+        return insert(ni,elem);
+        
+    }
+
+     NodeIterator<T>  insert(NodeIterator<T> & nit, T const & elem)
     {
         Node<T> *n = new Node<T>(elem);
         count++;
@@ -65,7 +85,13 @@ public:
         
     }
     
-    NodeIterator<T> const erase(NodeIterator<T> nit)
+    NodeIterator<T>  erase(NodeIterator<T> && nit)
+    {
+       NodeIterator<T> ni(std::move(nit));
+       return erase(ni);
+    }
+
+    NodeIterator<T>  erase(NodeIterator<T> & nit)
     {
         count--;
         if(nit.getNode()->next)
@@ -75,10 +101,11 @@ public:
             nit.getNode()->previous->next = nit.getNode()->next;
         else head= nit.getNode()->next;
 
-
-        ++nit;
-        return nit;
+        NodeIterator<T> x= nit.getNode()->next;
+        delete nit.getNode();
+        return x;
     }
+
 
     void push_front(const T & elem)
     {
@@ -96,10 +123,12 @@ public:
         return *n;
     }
 
-    void push_back(const T & elem)
+    void push_back( T const & elem)
     {
+        
         count++;
-        Node<T> * x = new Node<T>(elem);
+        Node<T> * x;
+        x = new Node<T>(elem);
         if(tail) tail->next = x;
         else head = x;
         x->previous=tail;
