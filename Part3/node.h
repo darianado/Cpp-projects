@@ -21,10 +21,6 @@ public:
 
     Node(const T & dataIn): 
             data(dataIn), next(nullptr), previous(nullptr){}
-    bool operator==(const Node<T> & other)
-    {
-        return this;
-    }
  
 };
 
