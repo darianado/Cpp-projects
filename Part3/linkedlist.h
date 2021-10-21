@@ -35,7 +35,7 @@ public:
         count ++;
         Node<T> * x = new Node<T>(elem);
         x->next = head;
-        head->previous = x;
+        if (head) head->previous = x;
         head = x; 
     }
 
