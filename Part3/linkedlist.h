@@ -49,7 +49,9 @@ public:
     {
         count++;
         Node<T> * x = new Node<T>(elem);
-        if(tail) {tail->next = x; x->previous=tail;}
+        if(tail) tail->next = x;
+        else head = x;
+        x->previous=tail;
         tail = x;
     }
 
