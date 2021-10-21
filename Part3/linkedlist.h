@@ -36,6 +36,7 @@ public:
         Node<T> * x = new Node<T>(elem);
         x->next = head;
         if (head) head->previous = x;
+        else tail =x;
         head = x; 
     }
 
