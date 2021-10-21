@@ -70,8 +70,10 @@ public:
         count--;
         if(nit.getNode()->next)
             nit.getNode()->next->previous = nit.getNode()->previous;
+        else tail= nit.getNode()->previous;
         if(nit.getNode()->previous)
             nit.getNode()->previous->next = nit.getNode()->next;
+        else head= nit.getNode()->next;
 
 
         ++nit;
