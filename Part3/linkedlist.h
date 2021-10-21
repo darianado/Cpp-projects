@@ -51,7 +51,7 @@ public:
         count=0;
     }
 
-    NodeIterator<T> const & insert(NodeIterator<T> & nit, T const & elem)
+    NodeIterator<T> const insert(NodeIterator<T> nit, T const & elem)
     {
         Node<T> *n = new Node<T>(elem);
         count++;
@@ -65,7 +65,7 @@ public:
         
     }
     
-    NodeIterator<T> const & erase(NodeIterator<T> & nit)
+    NodeIterator<T> const erase(NodeIterator<T> nit)
     {
         count--;
         if(nit.getNode()->next)
