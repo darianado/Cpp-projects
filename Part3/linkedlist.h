@@ -51,15 +51,17 @@ public:
         count=0;
     }
 
-    NodeIterator<T> const & insert(NodeIterator<T> const & nit, T const & elem)
+    NodeIterator<T> const & insert(NodeIterator<T> & nit, T const & elem)
     {
         Node<T> *n = new Node<T>(elem);
         count++;
         n->previous= nit.getNode()->previous;
+        nit.getNode()->previous->next = n;
         n->next= nit.getNode();
         nit.getNode()->previous =n;
 
-        return NodeIterator<T>(n);
+        nit = NodeIterator<T>(n);
+        return nit;
         
     }
     
@@ -119,6 +121,16 @@ public:
     }
 
     NodeIterator<T> end()
+    {
+        return nullptr;
+    }
+
+    NodeIterator<T> const begin() const
+    {
+        return NodeIterator<T>(head);
+    }
+
+    NodeIterator<T> const end() const
     {
         return nullptr;
     }
