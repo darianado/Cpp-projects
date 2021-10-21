@@ -9,6 +9,9 @@
 
 // TODO your code goes here:
 
+#include <initializer_list>
+
+
 template<typename T>
 class LinkedList{
 private:
@@ -19,6 +22,23 @@ public:
     LinkedList():
         head(nullptr),tail(nullptr),count(0){}
 
+    LinkedList(std::initializer_list<T> l){
+
+        count=l.size();
+        Node<T> *curr = new Node<T>(*l.begin());
+       
+        head= curr;
+        tail= curr;
+
+        auto itr = l.begin();
+        ++itr;
+         
+        while(itr!=l.end()){
+            push_back(*itr);
+            ++itr;
+        }
+    }
+
     ~LinkedList()
     {
         Node<T> *curr = head;
@@ -28,8 +48,34 @@ public:
             delete curr;
             curr = n;
         }
+        count=0;
+    }
+
+    NodeIterator<T> const & insert(NodeIterator<T> const & nit, T const & elem)
+    {
+        Node<T> *n = new Node<T>(elem);
+        count++;
+        n->previous= nit.getNode()->previous;
+        n->next= nit.getNode();
+        nit.getNode()->previous =n;
+
+        return NodeIterator<T>(n);
+        
     }
     
+    NodeIterator<T> const & erase(NodeIterator<T> & nit)
+    {
+        count--;
+        if(nit.getNode()->next)
+            nit.getNode()->next->previous = nit.getNode()->previous;
+        if(nit.getNode()->previous)
+            nit.getNode()->previous->next = nit.getNode()->next;
+
+
+        ++nit;
+        return nit;
+    }
+
     void push_front(const T & elem)
     {
         count ++;
@@ -40,7 +86,7 @@ public:
         head = x; 
     }
 
-    T const & front()
+    T const & front() 
     {
         NodeIterator<T> n = NodeIterator<T>(head);
         return *n;
@@ -56,7 +102,7 @@ public:
         tail = x;
     }
 
-     T const & back()
+     T const & back() 
     {
         NodeIterator<T> n = NodeIterator<T>(tail);
         return *n;
@@ -67,7 +113,7 @@ public:
         return count;
     }
 
-    NodeIterator<T> begin()
+    NodeIterator<T> begin() 
     {
         return NodeIterator<T>(head);
     }
@@ -94,7 +140,6 @@ public:
             tail=now;
             now=now->next;
         }
-
     }
 
 

@@ -39,8 +39,14 @@ public:
         : current(currentIn) {        
     }
 
+
     T & operator*() {
         return current->data;
+    }
+
+    Node<T> * const & getNode() const
+    {
+        return current;
     }
 
     void operator++()
@@ -48,12 +54,12 @@ public:
         current= current->next;
     }
 
-    bool operator==(const NodeIterator<T> & other)
+    bool operator==(const NodeIterator<T> & other) const
     {
         return current==other.current;
 
     }
-    bool operator!=(const NodeIterator<T> & other)
+    bool operator!=(const NodeIterator<T> & other) const
     {
         return current!=other.current;
         
