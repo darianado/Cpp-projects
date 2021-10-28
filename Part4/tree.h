@@ -17,10 +17,24 @@ public:
         root->write(print);
     }
 
-    // TreeNode<T>* find(T const & data)
-    // {
+    TreeNode<T>* find(T const & data)
+    {
+        TreeNode<T>* cur = root.get();
+        while(cur){
+            if(data<cur->data)
+            {
+                cur= cur->leftChild.get();
+            }
+            else if(cur->data < data){
+                cur=cur->rightChild.get();
+            }
+                    else{
+                        return cur;
+                    }
+        }
+        return nullptr;
 
-    // }
+    }
 
 
     TreeNode<T>* insert(T const & data)
