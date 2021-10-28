@@ -12,32 +12,30 @@ private:
 public:
     BinarySearchTree(){}
 
+    BinarySearchTree(BinarySearchTree const & other) {
+        insertCopyNode(other.getRoot());
+    }
+
+    void insertCopyNode(TreeNode<T> * const & x)
+    {
+        if(x!=nullptr){
+            insert(x->data);
+            insertCopyNode(x->leftChild.get());
+            insertCopyNode(x->rightChild.get());
+        }
+    }
+
+    TreeNode<T> * getRoot() const
+    {
+        return root.get();
+    }
+
     void write(ostream & print)
     {
         root->write(print);
     }
 
-    TreeNode<T>* find(T const & data)
-    {
-        TreeNode<T>* cur = root.get();
-        while(cur){
-            if(data<cur->data)
-            {
-                cur= cur->leftChild.get();
-            }
-            else if(cur->data < data){
-                cur=cur->rightChild.get();
-            }
-                    else{
-                        return cur;
-                    }
-        }
-        return nullptr;
-
-    }
-
-
-    TreeNode<T>* insert(T const & data)
+    TreeNode<T>* insert(T data)
     {
         
       TreeNode<T>* nou = new TreeNode<T>(data);
@@ -73,7 +71,27 @@ public:
 
     }
     
+ TreeNode<T>* find(T const & data)
+    {
+        TreeNode<T>* cur = root.get();
+        while(cur){
+            if(data<cur->data)
+            {
+                cur= cur->leftChild.get();
+            }
+            else if(cur->data < data){
+                cur=cur->rightChild.get();
+            }
+                    else{
+                        return cur;
+                    }
+        }
+        return nullptr;
+
+    }
+    
 };
+
 
 
 // do not edit below this line
