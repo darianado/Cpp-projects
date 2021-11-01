@@ -30,7 +30,7 @@ public:
         return root.get();
     }
 
-    void write(ostream & print)
+    void write(ostream & print) const
     {
         root->write(print);
     }

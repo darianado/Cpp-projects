@@ -12,7 +12,17 @@ public:
     Value v;
     
     // TODO your code for KeyValuePair goes here
-    
+
+    KeyValuePair(Key kIn, Value vIn): k(kIn), v(vIn){
+    }
+
+    KeyValuePair(Key kIn): k(kIn){
+    }
+
+    bool operator<( KeyValuePair const & other) const
+    {
+        return k < other.k;
+    }    
     
     
 };
@@ -44,6 +54,14 @@ public:
     }
     
     // TODO your code for TreeMap goes here:
+
+    KeyValuePair<Key,Value>* find (Key k)
+    {
+        KeyValuePair<Key,Value> findPair(k);
+        return &(tree.find(findPair)->data);
+
+
+    }
     
     
     
