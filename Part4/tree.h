@@ -71,7 +71,7 @@ public:
 
     }
     
- TreeNode<T>* find(T const & data)
+    TreeNode<T>* find(T const & data)
     {
         TreeNode<T>* cur = root.get();
         while(cur){
@@ -90,6 +90,23 @@ public:
 
     }
     
+    TreeNodeIterator<T> begin()
+    {
+        TreeNode<T>* b = root.get();
+        if(b==nullptr) return TreeNodeIterator<T>();
+
+        while(b->leftChild) 
+             b = b->leftChild.get();
+        return TreeNodeIterator<T>(*b);  
+
+    }
+
+    TreeNodeIterator<T> end()
+    {
+        return TreeNodeIterator<T>();
+    }
+
+
 };
 
 

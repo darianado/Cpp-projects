@@ -26,13 +26,13 @@ public:
     TreeNode(T const & d):data(d), parent(nullptr){
     }
 
-    void setLeftChild(TreeNode* child)
+    void setLeftChild(TreeNode* & child)
     {
         leftChild.reset(child);
         child->parent = this;
     }
 
-    void setRightChild(TreeNode* child)
+    void setRightChild(TreeNode* & child)
     {
         rightChild.reset(child);
         child->parent = this;
@@ -45,11 +45,52 @@ public:
         print<<" ";
         if(rightChild) {rightChild->write(print);}
     }
+};
+
+
+template<typename T>
+class TreeNodeIterator{
+private:
+    TreeNode<T> * current;
+public:
+    TreeNodeIterator(TreeNode<T> & node): current(&node){
+    }
+
+     TreeNodeIterator():current(nullptr){
+     }
+
+    TreeNode<T> & operator*()
+    {
+        return *current;
+    }
+
+    TreeNode<T> * & get()
+    {
+        return current;
+    }
+
+    bool operator==(TreeNodeIterator<T> const & other) const{
+        return current==other.current;
+    }
+
+     bool operator!=(TreeNodeIterator<T> const & other) const{
+        return current!=other.current;
+    }
+
+    void operator++()
+    {
+       
+        if(current->rightChild==nullptr)
+        {
+            while(current->parent)
+                current=current->parent;
+        }
+        else  current = current->rightChild.get();
+    }
 
 
 
 };
-
 
 // do not edit below this line
 
