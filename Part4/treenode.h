@@ -26,13 +26,13 @@ public:
     TreeNode(T const & d):data(d), parent(nullptr){
     }
 
-    void setLeftChild(TreeNode* & child)
+    void setLeftChild(TreeNode* child)
     {
         leftChild.reset(child);
         child->parent = this;
     }
 
-    void setRightChild(TreeNode* & child)
+    void setRightChild(TreeNode* child)
     {
         rightChild.reset(child);
         child->parent = this;
@@ -44,6 +44,11 @@ public:
         print<<data;
         print<<" ";
         if(rightChild) {rightChild->write(print);}
+    }
+
+    void maxDepth()
+    {
+
     }
 };
 
@@ -59,9 +64,9 @@ public:
      TreeNodeIterator():current(nullptr){
      }
 
-    TreeNode<T> & operator*()
+    T & operator*()
     {
-        return *current;
+        return current->data;
     }
 
     TreeNode<T> * & get()
@@ -79,13 +84,14 @@ public:
 
     void operator++()
     {
-       
+        T dela = current->data;
         if(current->rightChild==nullptr)
         {
             while(current->parent)
                 current=current->parent;
         }
         else  current = current->rightChild.get();
+        if(current->data<dela) current=nullptr;
     }
 
 
