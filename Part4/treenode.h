@@ -26,13 +26,13 @@ public:
     TreeNode(T const & d):data(d), parent(nullptr){
     }
 
-    void setLeftChild(TreeNode* child)
+    void setLeftChild(TreeNode<T>* child)
     {
         leftChild.reset(child);
         child->parent = this;
     }
 
-    void setRightChild(TreeNode* child)
+    void setRightChild(TreeNode<T>* child)
     {
         rightChild.reset(child);
         child->parent = this;
@@ -46,9 +46,37 @@ public:
         if(rightChild) {rightChild->write(print);}
     }
 
-    void maxDepth()
+    int maxDepth()
     {
+        if(!leftChild)
+            if(!rightChild)
+                return 1;
+            else return 1 + rightChild->maxDepth();
+        else 
+            if(!rightChild) 
+                return 1+leftChild->maxDepth();
+            else 
+                return 1 + std::max(rightChild->maxDepth(),leftChild->maxDepth());
+      
+    }
 
+    int balanceFactor()
+    {
+        int lmd, rmd;
+        if(leftChild) lmd = leftChild->maxDepth();
+        else lmd = 0;
+
+        if(rightChild) rmd = rightChild->maxDepth();
+        else rmd = 0;
+
+        return lmd - rmd;
+    }
+
+    bool rebalance()
+    {
+        if(balanceFactor() == 2 || balanceFactor() == -2) 
+            return true;
+        return false;
     }
 };
 
