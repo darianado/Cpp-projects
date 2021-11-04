@@ -40,9 +40,6 @@ public:
     TreeNode<T>* insert(T const & data)
     {
         TreeNode<T>* nou = new TreeNode<T>(data);
-        std::ostringstream s;
-        nou->write(s);
-        std::cout<<"=> "<<s.str()<<"\n";
 
         if(!root){
             root.reset(nou);
@@ -84,11 +81,14 @@ public:
                     // root->write(s2);
                     // std::cout<<"avl inainte: "<<s2.str()<<"\n";
                 avl(nou);
+                // std::ostringstream s3;
+                //     root->write(s3);
+                //     std::cout<<"avl dupa: "<<s3.str()<<"\n";
             }
 
     // std::ostringstream s1;
-    // nou->write(s1);
-    // std::cout<<"--- "<<s1.str()<<"\n";
+    // root->write(s1);
+    // std::cout<<root->data<<"--- "<<s1.str()<<"\n";
 
     return nou;
     
@@ -128,24 +128,72 @@ public:
                 
             else //p2 ia val c, c cu val lu p2 in stanga
             {
-                T aux = p2->data;
-                p2->data = c->data;
-                c->data= aux;
-
                 c= p1->leftChild.release();
-                p2->setLeftChild(c);
+
+                TreeNode<T>* aux = p2->parent;
+                if(aux){
+                    if(aux->data < p1->data)
+                    {
+                        p2 = aux->rightChild.release();
+                        aux->setRightChild(c);
+                    }  
+                    else {
+                        p2= aux->leftChild.release();
+                        aux->setLeftChild(c);
+                    }
+                }
+                else{
+                    p2 = root.release();
+                    root.reset(c);
+                    c->parent=nullptr;
+                }
+
+                c->rightChild.swap(p2->rightChild);
+                c->setLeftChild(p2);
+
+
+                // T aux = p2->data;
+                // p2->data = c->data;
+                // c->data= aux;
+
+                // c= p1->leftChild.release();
+                // p2->setLeftChild(c);
             }
         else
             if( p1->data < p2->data) //p1 mij, p2 mutat leftchild p1
             {
-                T aux = p2->data;
-                p2->data = c->data;
-                c->data= aux;
 
                 c= p1->rightChild.release();
-                p2->setRightChild(c);
 
+                TreeNode<T>* aux = p2->parent;
+                if(aux){
+                    if(aux->data < p1->data)
+                    {
+                        p2 = aux->rightChild.release();
+                        aux->setRightChild(c);
+                    }  
+                    else {
+                        p2= aux->leftChild.release();
+                        aux->setLeftChild(c);
+                    }
+                }
+                else{
+                    p2 = root.release();
+                    root.reset(c);
+                    c->parent=nullptr;
+                }
+
+                c->leftChild.swap(p2->leftChild);
+                c->setRightChild(p2);
+
+                // T aux = p2->data;
+                // p2->data = c->data;
+                // c->data= aux;
+
+                // c= p1->rightChild.release();
+                // p2->setRightChild(c);
             }
+
             else // p2 mij, c mutat rightchild p2
             {
                 p1= p2->rightChild.release();
@@ -193,11 +241,14 @@ public:
     
     TreeNodeIterator<T> begin()
     {
+        
         TreeNode<T>* b = root.get();
         if(b==nullptr) return TreeNodeIterator<T>();
-
-        while(b->leftChild) 
-             b = b->leftChild.get();
+        //std::cout<<b->data<<" "<<b->leftChild->data;
+        while(b->leftChild) { 
+            b = b->leftChild.get();
+        }
+        
         return TreeNodeIterator<T>(*b);  
 
     }
