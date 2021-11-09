@@ -9,9 +9,13 @@ using std::vector;
 using std::set;
 #include <math.h> 
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 // TODO: Your Sudoku class goes here:
 
-class Sudoku
+class Sudoku : public Searchable
 {
 private:
     vector<vector<set<int>>> board;
@@ -34,7 +38,15 @@ public:
         }
     }
 
-    int getSquare(int row, int col)
+    Sudoku(Sudoku const * other){
+        board=other->getBoard();
+    }
+
+    vector<vector<set<int>>> const & getBoard() const
+    {
+        return board;
+    }
+    int getSquare(int row, int col) const
     {
         if(board[row][col].size() > 1) return -1;
         else return *board[row][col].begin();
@@ -51,7 +63,7 @@ public:
         //board[row][col].clear();
         // board[row][col].insert(value);
         board[row][col] = {value};
-        std::cout<<"-------"<<*board[row][col].begin()<<"\n";
+        //std::cout<<"-------"<<*board[row][col].begin()<<"\n";
 
         // if(!updateSetSquare(row,col,value)) return false;
         for(int i=0;i< board.size();i++)
@@ -72,7 +84,7 @@ public:
             if(i!=col && board[row][i].erase(value)) {
                 
                 if(board[row][i].empty()) return false;
-                if(board[row][i].size()==1 && *board[row][i].begin()) 
+                if(board[row][i].size()==1) 
                     if(!updateSetSquare(row,i,*board[row][i].begin())) return false;
             }
         }
@@ -112,6 +124,54 @@ public:
                 
     }
 
+    virtual bool isSolution() const override{
+        for(int i=0;i< board.size();i++)
+        {
+            for(int j=0;j<board.size();j++)
+            {
+                if(board[i][j].size()!=1) return false;
+            }
+        }
+        return true;
+    }
+    virtual void write(ostream & o) const{
+        for (int i=0;i<board.size();i++) 
+        {
+            for(int j=0;j<board.size();j++)
+                if(getSquare(i,j)==-1)cout << " ";
+                else cout << getSquare(i,j);
+            cout<<"\n";
+        }
+    }
+    
+    virtual vector<unique_ptr<Searchable> > successors() const
+    {
+        vector<unique_ptr<Searchable>> v;
+        int row=-1,col=-1;
+        for (int i=0;i<board.size();i++) 
+        {
+            for(int j=0;j<board.size();j++)
+            {
+                if(board[i][j].size()!=1)
+                    {row=i;col=j;break;}
+            }
+            if(row>=0) break;
+        }
+
+        for(auto x: board[row][col])
+        {
+            Sudoku* copy = new Sudoku(this);
+            if(copy->setSquare(row,col,x))
+            {
+                v.emplace_back(copy);
+            }
+            else delete copy;
+
+        }
+
+
+        return v;
+    }
 };
 
 
