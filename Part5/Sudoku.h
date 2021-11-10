@@ -1,3 +1,4 @@
+
 #ifndef SUDOKU_H
 #define SUDOKU_H
 
@@ -12,24 +13,25 @@ using std::set;
 #include <iostream>
 using std::cout;
 using std::endl;
+#include "SudokuSquare.h"
 
 // TODO: Your Sudoku class goes here:
 
 class Sudoku : public Searchable
 {
 private:
-    vector<vector<set<int>>> board;
+    vector<vector<SudokuSquareSet>> board;
     
 public:
     Sudoku(int size){
-       set<int> s;
+       SudokuSquareSet s;
     	for (int i = 1; i <= size; i++) {
     		s.insert(i);
     	}
 
         for(int i=0;i< size;i++)
         {
-           vector<set<int>> r;
+           vector<SudokuSquareSet> r;
             for(int j=0;j<size;j++)
                 {
                     r.push_back(s);
@@ -42,7 +44,7 @@ public:
         board=other->getBoard();
     }
 
-    vector<vector<set<int>>> const & getBoard() const
+    vector<vector<SudokuSquareSet>> const & getBoard() const
     {
         return board;
     }
@@ -55,14 +57,15 @@ public:
     {
         // if(board[i][j].size()==1)
         //     return *board[i][j].begin();
+        //std::cout<<"board get val size "<<board[i][j].size()<<"\n";
         return board[i][j].size();
     }
 
     bool setSquare(int row, int col, int value)
     {
-        //board[row][col].clear();
-        // board[row][col].insert(value);
-        board[row][col] = {value};
+        board[row][col].clear();
+        board[row][col].insert(value);
+        // board[row][col] = {value};
         //std::cout<<"-------"<<*board[row][col].begin()<<"\n";
 
         // if(!updateSetSquare(row,col,value)) return false;
