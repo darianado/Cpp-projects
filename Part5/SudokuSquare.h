@@ -16,6 +16,11 @@ public:
         count=0;
     }
 
+    SudokuSquareSet(SudokuSquareSet const & other){
+        vals = other.vals;
+        count=other.count;
+    }
+
     int size() const
     {
         //std::cout<<"------size";
@@ -48,10 +53,11 @@ public:
      class SudokuSquareSetIterator
     {
         private:
-            SudokuSquareSet* itr;
+            const SudokuSquareSet* itr;
             int pos;
         public:
-            SudokuSquareSetIterator(SudokuSquareSet * set): itr(set){
+            SudokuSquareSetIterator( SudokuSquareSet const *   set) {
+                itr = set;
                 unsigned int aux = itr->vals;
                 pos=-1;
                 do pos++;
@@ -107,13 +113,13 @@ public:
 
 
 
-    SudokuSquareSetIterator begin()
+    SudokuSquareSetIterator begin() const
     {
         SudokuSquareSetIterator itr(this); 
         return itr;
     }
 
-    SudokuSquareSetIterator end()
+    SudokuSquareSetIterator end() const
     {
         return SudokuSquareSetIterator();
     }
@@ -121,6 +127,7 @@ public:
     SudokuSquareSetIterator insert(int what)
     {
         count++;
+        //std::cout<<"inserting "<<what<<" count now"<<count<<"\n";
         //std::cout<<"------insert"<<what;
         unsigned int mask = 1;
         for(int i= 1;i<what;i++)
@@ -154,11 +161,11 @@ public:
         
     }
 
-    void erase(int what)
+    bool erase(int what)
     {
        SudokuSquareSetIterator itr = find(what);
        //std::cout<<"erase now from pos"<<*itr<<"\n";
-       if(itr==end());
+       if(itr==end()) return false;
        else
        {
            //std::cout<<"val before"<<vals<<"\n";
@@ -169,6 +176,7 @@ public:
             //std::cout<<"the mask for delet"<<mask<<"\n";
             vals = vals - mask;
             //std::cout<<"val after del"<<vals<<"\n\n";
+            return true;
        }
 
     }
