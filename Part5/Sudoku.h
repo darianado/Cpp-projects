@@ -13,24 +13,25 @@ using std::set;
 using std::cout;
 using std::endl;
 #include<sstream>
+#include "SudokuSquare.h"
 
 // TODO: Your Sudoku class goes here:
 
 class Sudoku : public Searchable
 {
 private:
-    vector<vector<set<int>>> board;
+    vector<vector<SudokuSquareSet>> board;
     
 public:
     Sudoku(int size){
-       set<int> s;
+       SudokuSquareSet s;
     	for (int i = 1; i <= size; i++) {
     		s.insert(i);
     	}
 
         for(int i=0;i< size;i++)
         {
-           vector<set<int>> r;
+           vector<SudokuSquareSet> r;
             for(int j=0;j<size;j++)
                 {
                     r.push_back(s);
@@ -43,7 +44,7 @@ public:
         board=other->getBoard();
     }
 
-    vector<vector<set<int>>> const & getBoard() const
+    vector<vector<SudokuSquareSet>> const & getBoard() const
     {
         return board;
     }
@@ -288,7 +289,7 @@ public:
            Sudoku* copy = new Sudoku(this);
             if(copy->setSquare(row,col,x))
             {
-                // std::cout<<"am ghicit pe row"<<row<<"col"<<col<<"val"<<x<<std::endl;
+                //std::cout<<"am ghicit pe row"<<row<<"col"<<col<<"val"<<x;
                 v.emplace_back(copy);
                 // std::ostringstream s;
                 // copy->write(s);
@@ -297,8 +298,11 @@ public:
             else delete copy;
 
         }
-
-
+        
+        if(v.size()==1){
+            if(!v.front()->isSolution())
+                return v.front().release()->successors();
+        }
         return v;
     }
 
