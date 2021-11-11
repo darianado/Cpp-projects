@@ -9,8 +9,6 @@ using std::unique_ptr;
 #include <deque>
 using std::deque;
 
-#include <algorithm>
-
 class BreadthFirstSearch {
 
 protected:
@@ -57,10 +55,8 @@ public:
             
             for (auto & successor : successors) {
                 // and push each one onto the back of queue.
-                //std::cout<<successor->heuristicValue()<<"->";
                 Q.push_back(std::move(successor));
             }
-            std::sort(Q.begin(),Q.end());
         }
         
         // If we get to here, we never found a solution and returned it higher up
