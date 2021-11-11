@@ -24,7 +24,13 @@ public:
     int size() const
     {
         //std::cout<<"------size";
-        return count;
+        unsigned int vals2= vals;
+        int coun = 0;
+        while (vals2) {
+            coun += vals2 & 1;
+            vals2 >>= 1;
+        }
+        return coun;
     }
 
     bool empty() const 
@@ -60,23 +66,34 @@ public:
                 itr = set;
                 unsigned int aux = itr->vals;
                 pos=-1;
-                do pos++;
+                do {
+                    pos++;
+                    if(pos>=32) {
+                        itr = nullptr;
+                        pos=0;
+                        break;
+                    }
+                 }
                 while( !(aux & (1<<pos)) );
+
+                
             }
 
             SudokuSquareSetIterator(): itr(nullptr), pos(0){}
 
-            void operator++()
+            SudokuSquareSetIterator operator++()
             {
-                unsigned int aux = itr->vals;
-                do pos++;
-                while( !(aux & (1<<pos)) );
+                if(itr) {
+                    unsigned int aux = itr->vals;
+                    do pos++;
+                    while( !(aux & (1<<pos)) );
 
-
-                if(pos>=32) {
-                    itr = nullptr;
-                    pos=0;
+                    if(pos>=32) {
+                        itr = nullptr;
+                        pos=0;
+                    }
                 }
+                 return *this;
             }
 
             void setPos(int x)
@@ -126,15 +143,21 @@ public:
 
     SudokuSquareSetIterator insert(int what)
     {
+<<<<<<< HEAD
+        //count++;
+=======
         count++;
+>>>>>>> 5c9a7e63a5e9289c31f526f153a0a900485036a3
         //std::cout<<"inserting "<<what<<" count now"<<count<<"\n";
         //std::cout<<"------insert"<<what;
         unsigned int mask = 1;
         for(int i= 1;i<what;i++)
             mask= mask*2;
         //std::cout<<"->mask"<<mask;
-        
+        unsigned int before=vals;
         vals = vals | mask;
+        if(vals>before) count++;
+
         //std::cout<<"->vals"<<vals;
         SudokuSquareSetIterator itr(this);
         itr.setPos(what-1);
@@ -181,13 +204,29 @@ public:
 
     }
 
-    void erase(SudokuSquareSetIterator itr)
+    bool erase(SudokuSquareSetIterator itr)
     {
-        count--;
-        unsigned int mask = 1;
-        for(int i= 1;i<=itr.getPos();i++)
-            mask= mask*2;
-        vals = vals - mask;
+       if(itr==end()) return false;
+       else
+       {
+            count--;
+            unsigned int mask = 1;
+            for(int i= 1;i<=itr.getPos();i++)
+                mask= mask*2;
+            vals = vals - mask;
+            return true;
+       }
+    }
+
+    void erase(SudokuSquareSet s)
+    {
+        SudokuSquareSetIterator itr(&s);
+        while(itr!=end())
+        {
+            this->erase(itr);
+            ++itr;
+        }
+
     }
 
 
