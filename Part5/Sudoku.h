@@ -109,9 +109,9 @@ public:
 
                             if(board[row][j].empty()) return false;
                             
-                            // if(board[row][j].size()==1)
-                            //     if(!updateSetSquare(row,j,*board[row][j].begin())) 
-                            //         return false;
+                            if(board[row][j].size()==1)
+                                if(!updateSetSquare(row,j,*board[row][j].begin())) 
+                                    return false;
                             
                         }
                     }
@@ -140,6 +140,10 @@ public:
                                 board[j][col].erase(x);
 
                             if(board[j][col].empty()) return false;
+
+                            if(board[j][col].size()==1)
+                                if(!updateSetSquare(j,col,*board[j][col].begin())) 
+                                    return false;
                         }
                     }
                 }
@@ -175,6 +179,10 @@ public:
                                             board[k][l].erase(x);
 
                                         if(board[k][l].empty()) return false;
+
+                                        if(board[k][l].size()==1)
+                                            if(!updateSetSquare(k,l,*board[k][l].begin())) 
+                                                return false;
                                     }
                                 }
                             }
