@@ -44,6 +44,9 @@ public:
         board=other->getBoard();
     }
 
+    void operator==(Sudoku const & other){
+        board= other.board;
+    }
     vector<vector<SudokuSquareSet>> const & getBoard() const
     {
         return board;
@@ -309,7 +312,7 @@ public:
         
         if(v.size()==1){
             if(!v.front()->isSolution())
-                return v.front().release()->successors();
+                return v.front()->successors();
         }
         return v;
     }
