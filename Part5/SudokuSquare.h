@@ -143,11 +143,7 @@ public:
 
     SudokuSquareSetIterator insert(int what)
     {
-<<<<<<< HEAD
         //count++;
-=======
-        count++;
->>>>>>> 5c9a7e63a5e9289c31f526f153a0a900485036a3
         //std::cout<<"inserting "<<what<<" count now"<<count<<"\n";
         //std::cout<<"------insert"<<what;
         unsigned int mask = 1;

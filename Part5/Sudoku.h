@@ -1,4 +1,3 @@
-
 #ifndef SUDOKU_H
 #define SUDOKU_H
 
@@ -13,29 +12,25 @@ using std::set;
 #include <iostream>
 using std::cout;
 using std::endl;
-<<<<<<< HEAD
 #include<sstream>
-=======
-#include "SudokuSquare.h"
->>>>>>> 5c9a7e63a5e9289c31f526f153a0a900485036a3
 
 // TODO: Your Sudoku class goes here:
 
 class Sudoku : public Searchable
 {
 private:
-    vector<vector<SudokuSquareSet>> board;
+    vector<vector<set<int>>> board;
     
 public:
     Sudoku(int size){
-       SudokuSquareSet s;
+       set<int> s;
     	for (int i = 1; i <= size; i++) {
     		s.insert(i);
     	}
 
         for(int i=0;i< size;i++)
         {
-           vector<SudokuSquareSet> r;
+           vector<set<int>> r;
             for(int j=0;j<size;j++)
                 {
                     r.push_back(s);
@@ -48,7 +43,7 @@ public:
         board=other->getBoard();
     }
 
-    vector<vector<SudokuSquareSet>> const & getBoard() const
+    vector<vector<set<int>>> const & getBoard() const
     {
         return board;
     }
@@ -61,7 +56,6 @@ public:
     {
         // if(board[i][j].size()==1)
         //     return *board[i][j].begin();
-        //std::cout<<"board get val size "<<board[i][j].size()<<"\n";
         return board[i][j].size();
     }
 
