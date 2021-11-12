@@ -4,15 +4,17 @@
 #include "Searchable.h"
 #include "SudokuSquare.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 #include <vector>
 using std::vector;
 #include <set>
 using std::set;
 #include <math.h> 
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
 
 
 
