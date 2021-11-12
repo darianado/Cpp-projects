@@ -5,7 +5,6 @@
 
 // TODO your code goes here:
 
-#include <sstream>
 
 template<typename T>
 class BinarySearchTree{
@@ -46,51 +45,38 @@ public:
             return nou;
         }
 
-      TreeNode<T>* cur = root.get();
-      while(cur){
-          if(data<cur->data)
-          {
-              if(cur->leftChild==nullptr)
+        TreeNode<T>* cur = root.get();
+        while(cur){
+            if(data<cur->data)
+            {
+                if(cur->leftChild==nullptr)
                 {
                     cur->setLeftChild(nou);
                     nou->parent = cur;
                     break;
-                    //return nou;
                 }
-              cur= cur->leftChild.get();
-          }
-          else if(cur->data < data){
-               if(cur->rightChild==nullptr)
+                cur= cur->leftChild.get();
+            }
+            else if(cur->data < data){
+                if(cur->rightChild==nullptr)
                 {
                     cur->setRightChild(nou);
                     nou->parent = cur;
                     break;
-                    //return nou;
                 }
-              cur=cur->rightChild.get();
-          }
+                cur=cur->rightChild.get();
+            }
                 else{
                     delete nou;
                     return cur;
                 }
-      }
-      if(nou->parent && nou->parent->parent)
+        }
+        if(nou->parent && nou->parent->parent)
         if(nou->parent->parent->rebalance())
             {
-                    // std::ostringstream s2;
-                    // root->write(s2);
-                    // std::cout<<"avl inainte: "<<s2.str()<<"\n";
                 avl(nou);
-                // std::ostringstream s3;
-                //     root->write(s3);
-                //     std::cout<<"avl dupa: "<<s3.str()<<"\n";
             }
-
-    // std::ostringstream s1;
-    // root->write(s1);
-    // std::cout<<root->data<<"--- "<<s1.str()<<"\n";
-
-    return nou;
+        return nou;
     
     }
 
@@ -151,13 +137,6 @@ public:
                 c->rightChild.swap(p2->rightChild);
                 c->setLeftChild(p2);
 
-
-                // T aux = p2->data;
-                // p2->data = c->data;
-                // c->data= aux;
-
-                // c= p1->leftChild.release();
-                // p2->setLeftChild(c);
             }
         else
             if( p1->data < p2->data) //p1 mij, p2 mutat leftchild p1
@@ -186,12 +165,6 @@ public:
                 c->leftChild.swap(p2->leftChild);
                 c->setRightChild(p2);
 
-                // T aux = p2->data;
-                // p2->data = c->data;
-                // c->data= aux;
-
-                // c= p1->rightChild.release();
-                // p2->setRightChild(c);
             }
 
             else // p2 mij, c mutat rightchild p2
@@ -244,7 +217,6 @@ public:
         
         TreeNode<T>* b = root.get();
         if(b==nullptr) return TreeNodeIterator<T>();
-        //std::cout<<b->data<<" "<<b->leftChild->data;
         while(b->leftChild) { 
             b = b->leftChild.get();
         }

@@ -122,8 +122,6 @@ public:
         if(current->data<dela) current=nullptr;
     }
 
-
-
 };
 
 // do not edit below this line

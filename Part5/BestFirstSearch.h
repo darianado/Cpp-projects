@@ -21,7 +21,6 @@ protected:
     /** How many nodes (boards) we made successors for, in order to solve the problem */    
     int nodes = 0;
     
-    
 public:
 
     BestFirstSearch(std::unique_ptr<Searchable> && startFrom) {
@@ -66,6 +65,7 @@ public:
         }
         return nullptr;
     }
+    
 };
 
 

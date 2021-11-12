@@ -30,11 +30,12 @@ public:
   CovidCase( double latitudeIn, double longitudeIn, string nameIn, int ageIn, int timeIn):
             latitude(latitudeIn), longitude(longitudeIn),name(nameIn), age(ageIn),time(timeIn){
             };
-  CovidCase(string s){
+  CovidCase(string s)
+  {
 
     std::remove(s.begin(), s.end(), ' ');
     std::remove(s.begin(), s.end(), '"');
-      std::remove(s.begin(), s.end(), '{');
+    std::remove(s.begin(), s.end(), '{');
     std::vector<string> el;
     string t="";
     for(int i = 0; i < s.length(); i++){

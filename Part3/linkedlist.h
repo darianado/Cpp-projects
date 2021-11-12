@@ -10,7 +10,6 @@
 // TODO your code goes here:
 
 #include <initializer_list>
-#include <memory>
 
 
 template<typename T>
@@ -26,26 +25,13 @@ public:
     LinkedList(std::initializer_list<T> const & l){
 
         count=0;
-       head=nullptr;
-       tail=nullptr;
+        head=nullptr;
+        tail=nullptr;
        
-
         for(const auto& x : l)
         {
             push_back(x);
-            
         }
-
-
-        
-        for(Node<T>* x =head;x!=nullptr;x=x->next)
-            std::cout<<x->data<<" ";
-        std::cout<<"\n";
-
-        Node<T>* x =head;
-        for(int i=0;i<count;i++)
-            {std::cout<<x<<" "<<x->data<<" prev:"<<x->previous<<" next: "<<x->next<<"\n";x=x->next;}
-        std::cout<<"\n\n";
 
     }
 
@@ -68,7 +54,6 @@ public:
     {
         NodeIterator<T> ni(std::move(nit));
         return insert(ni,elem);
-        
     }
 
      NodeIterator<T>  insert(NodeIterator<T> & nit, T const & elem)
@@ -82,7 +67,6 @@ public:
 
         nit = NodeIterator<T>(n);
         return nit;
-        
     }
     
     NodeIterator<T>  erase(NodeIterator<T> && nit)
@@ -125,7 +109,6 @@ public:
 
     void push_back( T const & elem)
     {
-        
         count++;
         Node<T> * x;
         x = new Node<T>(elem);

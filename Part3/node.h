@@ -21,7 +21,6 @@ public:
 
     Node(const T & dataIn): 
             data(dataIn), next(nullptr), previous(nullptr){}
- 
 };
 
 
@@ -64,7 +63,6 @@ public:
         return current!=other.current;
         
     }
-        
     
 };
 

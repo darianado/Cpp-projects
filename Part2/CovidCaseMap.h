@@ -81,16 +81,6 @@ class CovidCaseMap {
       return rez;
     }
 
-    //vector<CovidCase>
-    // void getActiveCasesAt(int time, int unit)
-    // {
-    //   vector<TimeAndCaseData> rez=getCasesOverTime(unit);
-    //
-    //   int max=(*max_element(rez.begin(),rez.end())).getTime();
-    //
-    //   //return NULL;
-    // }
-
     double supportVisitGreedyTSP (double lati, double lon, int time, int unit)
     {
 
@@ -108,18 +98,17 @@ class CovidCaseMap {
           if(visited[i]==0 && curr.distanceTo(ac[i]) < min)
           {
             min=curr.distanceTo(ac[i]);
-            std::cout<<min<<"----";
             aici=i;
           }
         }
-        std::cout<<std::endl;
         rez+=min;
         visited[aici]=1;
         curr=ac[aici];
       }while(!alldone(visited));
+
       rez+= curr.distanceTo(strt);
       return rez;
-      }
+    }
 };
 
 

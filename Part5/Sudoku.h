@@ -2,6 +2,7 @@
 #define SUDOKU_H
 
 #include "Searchable.h"
+#include "SudokuSquare.h"
 
 #include <vector>
 using std::vector;
@@ -12,8 +13,8 @@ using std::set;
 #include <iostream>
 using std::cout;
 using std::endl;
-#include<sstream>
-#include "SudokuSquare.h"
+
+
 
 // TODO: Your Sudoku class goes here:
 
@@ -58,8 +59,6 @@ public:
     }
     int getval(int i, int j)
     {
-        // if(board[i][j].size()==1)
-        //     return *board[i][j].begin();
         return board[i][j].size();
     }
 
@@ -68,10 +67,7 @@ public:
     {
         board[row][col].clear();
         board[row][col].insert(value);
-        // board[row][col] = {value};
-        //std::cout<<"-------"<<*board[row][col].begin()<<"\n";
 
-        // if(!updateSetSquare(row,col,value)) return false;
         for(int i=0;i< board.size();i++)
         {
             for(int j=0;j<board.size();j++)
@@ -81,12 +77,8 @@ public:
             }
         }
         return true;
-        
     }
 
-
-
-   
     bool solveDuplicHoriz(int row,int col,int howMany)
     {
         int found=1;
@@ -94,8 +86,6 @@ public:
         {
             if(i!=col && board[row][i]==board[row][col])
             {
-                //std::cout<<"found"<<*board[row][col].begin()<<*++board[row][col].begin()<<"row"<<row<<"from col"<<col<<"to col"<<i<<"\n";
-                
                 found++;
                 if(found==howMany)
                 {     
@@ -104,11 +94,8 @@ public:
                         if(board[row][j]!=board[row][col])
                         {
                             
-                            //  board[row][j].erase(board[row][col].begin());
-                            //  board[row][j].erase(++board[row][col].begin());
                             for(auto x:board[row][col])
                                 board[row][j].erase(x);
-                                //std::cout<<"test ajunge aici \n";
 
                             if(board[row][j].empty()) return false;
                             
@@ -204,10 +191,7 @@ public:
         {
             if(i!=col && board[row][i].erase(value))
             {
-                // std::cout<<"deleted"<<value
-                // <<"from row"<<row<<"col"<<i<<"because it was on col"<<col<<"\n";
                 if(board[row][i].empty()) return false;
-                //std::cout<<"test ajunge aici \n";
                 if(board[row][i].size()==1) 
                     if(!updateSetSquare(row,i,*board[row][i].begin())) return false;
                     else;
@@ -232,7 +216,7 @@ public:
         int boxsize = sqrt(board.size());
         int rowboxnr = row - row % boxsize;
         int colboxnr = col - col % boxsize ;
-        // std::cout<<" for row "<<row<<" col "<<col<<" and val "<<value<<" box starts at row "<<rowboxnr<<" and col "<<colboxnr<<"\n";
+
         for(int i=rowboxnr; i< rowboxnr+boxsize; i++)
         {
             for(int j=colboxnr; j< colboxnr+boxsize; j++)
@@ -300,11 +284,7 @@ public:
            Sudoku* copy = new Sudoku(this);
             if(copy->setSquare(row,col,x))
             {
-                //std::cout<<"am ghicit pe row"<<row<<"col"<<col<<"val"<<x;
                 v.emplace_back(copy);
-                // std::ostringstream s;
-                // copy->write(s);
-                // std::cout<<s.str()<<std::endl;
             }
             else delete copy;
 

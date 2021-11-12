@@ -23,7 +23,6 @@ public:
 
     int size() const
     {
-        //std::cout<<"------size";
         unsigned int vals2= vals;
         int coun = 0;
         while (vals2) {
@@ -108,7 +107,6 @@ public:
 
             int operator*()
             {
-                //if( (*itr << pos)  & 1) 
                 return pos+1;
             }
 
@@ -121,14 +119,8 @@ public:
             {
                 return !(itr==other.itr && pos==other.pos);
             }
-
-
             
     };
-
-
-
-
 
     SudokuSquareSetIterator begin() const
     {
@@ -143,24 +135,17 @@ public:
 
     SudokuSquareSetIterator insert(int what)
     {
-        //count++;
-        //std::cout<<"inserting "<<what<<" count now"<<count<<"\n";
-        //std::cout<<"------insert"<<what;
         unsigned int mask = 1;
         for(int i= 1;i<what;i++)
             mask= mask*2;
-        //std::cout<<"->mask"<<mask;
+
         unsigned int before=vals;
         vals = vals | mask;
         if(vals>before) count++;
 
-        //std::cout<<"->vals"<<vals;
         SudokuSquareSetIterator itr(this);
         itr.setPos(what-1);
-        // while(what){
-        //     ++itr; what--;
-        // }
-        //std::cout<<"->itr"<<*itr<<std::endl;
+
         return itr;
     }
 
@@ -173,9 +158,7 @@ public:
                 ++itr;
                 if(itr==end()) return end();
             } 
-        //std::cout<<"found "<<what<<"at pos"<<*itr<<"\n";
 
-        //if(itr==end()) return end();
         return itr;
         
     }
@@ -183,18 +166,18 @@ public:
     bool erase(int what)
     {
        SudokuSquareSetIterator itr = find(what);
-       //std::cout<<"erase now from pos"<<*itr<<"\n";
+
        if(itr==end()) return false;
        else
        {
-           //std::cout<<"val before"<<vals<<"\n";
+
             count--;
             unsigned int mask = 1;
             for(int i= 1;i<=itr.getPos();i++)
                 mask= mask*2;
-            //std::cout<<"the mask for delet"<<mask<<"\n";
+
             vals = vals - mask;
-            //std::cout<<"val after del"<<vals<<"\n\n";
+
             return true;
        }
 
@@ -222,13 +205,9 @@ public:
             this->erase(itr);
             ++itr;
         }
-
     }
 
-
 };
-
- 
 
 
 // Do not write any code below this line
