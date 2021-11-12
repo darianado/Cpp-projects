@@ -5,6 +5,9 @@
 #include <memory>
 #include <iostream>
 
+
+#include <functional>
+
 using std::vector;
 using std::unique_ptr;
 using std::ostream;
@@ -23,6 +26,11 @@ public:
     
     virtual int heuristicValue() const {
         return 0;
+    }
+
+    bool operator>(Searchable const & other) const
+    {
+        return heuristicValue()> other.heuristicValue();
     }
     
 

@@ -22,9 +22,11 @@ class Sudoku : public Searchable
 {
 private:
     vector<vector<SudokuSquareSet>> board;
+    vector<bool> seted;
     
 public:
     Sudoku(int size){
+        seted.resize(size*size, false);
        SudokuSquareSet s;
     	for (int i = 1; i <= size; i++) {
     		s.insert(i);
@@ -42,6 +44,7 @@ public:
     }
 
     Sudoku(Sudoku const * other){
+        seted=other->seted;
         board=other->getBoard();
     }
 
@@ -72,8 +75,9 @@ public:
         {
             for(int j=0;j<board.size();j++)
             {
-                if(board[i][j].size()==1)
-                    if(!updateSetSquare(row,col,value)) return false;
+                if(board[i][j].size()==1 && !seted[i*board.size()+j]){
+                    seted[i*board.size()+j]=true;
+                    if(!updateSetSquare(row,col,value)) return false;}
             }
         }
         return true;
@@ -99,9 +103,10 @@ public:
 
                             if(board[row][j].empty()) return false;
                             
-                            if(board[row][j].size()==1)
+                            if(board[row][j].size()==1){
+                                // seted[row*board.size()+j]=true;
                                 if(!updateSetSquare(row,j,*board[row][j].begin())) 
-                                    return false;
+                                    return false;}
                             
                         }
                     }
@@ -131,9 +136,10 @@ public:
 
                             if(board[j][col].empty()) return false;
 
-                            if(board[j][col].size()==1)
+                            if(board[j][col].size()==1){
+                                // seted[j*board.size()+col]=true;
                                 if(!updateSetSquare(j,col,*board[j][col].begin())) 
-                                    return false;
+                                    return false;}
                         }
                     }
                 }
@@ -170,9 +176,10 @@ public:
 
                                         if(board[k][l].empty()) return false;
 
-                                        if(board[k][l].size()==1)
+                                        if(board[k][l].size()==1){
+                                            // seted[k*board.size()+l]=true;
                                             if(!updateSetSquare(k,l,*board[k][l].begin())) 
-                                                return false;
+                                                return false;}
                                     }
                                 }
                             }
@@ -192,9 +199,9 @@ public:
             if(i!=col && board[row][i].erase(value))
             {
                 if(board[row][i].empty()) return false;
-                if(board[row][i].size()==1) 
-                    if(!updateSetSquare(row,i,*board[row][i].begin())) return false;
-                    else;
+                if(board[row][i].size()==1) {seted[row*board.size()+i]=true;
+                    if(!updateSetSquare(row,i,*board[row][i].begin())) return false;}
+
                 else if(board[row][i].size()<=(board.size()/3))
                         if(!solveDuplicHoriz(row,i,board[row][i].size()))return false;
             }
@@ -205,9 +212,8 @@ public:
             if(i!=row && board[i][col].erase(value))
             {
                 if(board[i][col].empty()) return false;
-                if(board[i][col].size()==1)
-                    if(!updateSetSquare(i,col,*board[i][col].begin())) return false;
-                    else;
+                if(board[i][col].size()==1){seted[i*board.size()+col]=true;
+                    if(!updateSetSquare(i,col,*board[i][col].begin())) return false;}
                 else if(board[row][i].size()<=(board.size()/3))
                         if(!solveDuplicVert(row,i,board[row][i].size()))return false;
             }
@@ -228,9 +234,8 @@ public:
                     {
                         if(board[i][j].empty()) 
                             return false;
-                        if(board[i][j].size()==1 )
-                            if(!updateSetSquare(i,j,*board[i][j].begin())) return false;
-                            else;
+                        if(board[i][j].size()==1 ){seted[i*board.size()+j]=true;
+                            if(!updateSetSquare(i,j,*board[i][j].begin())) return false;}
                         else if(board[row][i].size()<=(board.size()/3))
                                 if(!solveDuplicBox(row,i,board[row][i].size()))return false;
                     }
